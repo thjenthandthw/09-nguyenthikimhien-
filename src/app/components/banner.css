@@ -1,0 +1,66 @@
+/* banner.css */
+.banner-wrapper {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+/* Tất cả ảnh chồng lên nhau */
+.banner-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+/* Ảnh hiện tại */
+.banner-item.active {
+  opacity: 1;
+  z-index: 1;
+}
+
+/* Ảnh full cover */
+.banner-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+}
+
+/* Overlay chữ */
+.banner-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  text-align: center;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.banner-overlay h2 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.banner-overlay p {
+  font-size: 1.2rem;
+}
+
+/* Responsive cho mobile */
+@media (max-width: 768px) {
+  .banner-wrapper {
+    height: 250px;
+  }
+  .banner-overlay h2 {
+    font-size: 1.8rem;
+  }
+  .banner-overlay p {
+    font-size: 1rem;
+  }
+}
