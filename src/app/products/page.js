@@ -1,15 +1,18 @@
 "use client";
+
+import { Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { products } from "../data/products";
-import { useAppContext } from "../context/CartContext"; 
+import { useAppContext } from "../context/CartContext";
 import styles from "../page.module.css";
 
-export default function ProductsList() {
+function ProductListInner() {
   const searchParams = useSearchParams();
   const router = useRouter();
+
   const category = searchParams.get("category");
-  
-  const { addToCart } = useAppContext(); 
+
+  const { addToCart } = useAppContext();
 
   const filteredProducts = category
     ? products.filter((p) => p.category === category)
@@ -31,18 +34,32 @@ export default function ProductsList() {
       <div className={styles.grid}>
         {filteredProducts.map((product) => (
           <div key={product.id} className={styles.card}>
-            <img src={product.hinhAnh} alt={product.tenSP} className={styles.productImage} />
-            <h3>{product.tenSP}</h3>
-            <p className={styles.price}>{product.giaSP.toLocaleString()}₫</p>
+            <img
+              src={product.hinhAnh}
+              alt={product.tenSP}
+              className={styles.productImage}
+            />
 
-            {/* Cụm 2 nút Mua/Giỏ */}
-            <div style={{ display: "flex", gap: "10px", marginTop: "15px" }}>
+            <h3>{product.tenSP}</h3>
+
+            <p className={styles.price}>
+              {product.giaSP.toLocaleString()}₫
+            </p>
+
+            <div
+              style={{
+                display: "flex",
+                gap: "10px",
+                marginTop: "15px",
+              }}
+            >
               <button
                 className="btn-cart"
                 onClick={() => addToCart(product)}
               >
                 Thêm Giỏ
               </button>
+
               <button
                 className="btn-buy"
                 onClick={() => {
@@ -54,7 +71,6 @@ export default function ProductsList() {
               </button>
             </div>
 
-            {/* NÚT CHI TIẾT ĐÃ QUAY TRỞ LẠI */}
             <button
               className="btn-detail"
               style={{ marginTop: "10px", width: "100%" }}
@@ -66,5 +82,13 @@ export default function ProductsList() {
         ))}
       </div>
     </section>
+  );
+}
+
+export default function ProductsPage() {
+  return (
+    <Suspense fallback={<div>Đang tải sản phẩm...</div>}>
+      <ProductListInner />
+    </Suspense>
   );
 }
